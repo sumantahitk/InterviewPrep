@@ -1,11 +1,12 @@
-const dotenv=require ("dotenv")
+require("dotenv").config()
 const app=require("./src/app")
 const db=require("./src/config/db")
+const {resume,selfDescription,JobDescription} =require("./src/services/temp")
+const generateInterviewReport=require("./src/services/ai.service")
 
+// dotenv.config()
 
-dotenv.config()
-
-
+// generateInterviewReport({resume,selfDescription,JobDescription})
 
 db();
 
