@@ -31,7 +31,7 @@ async function registerUserController(req, res) {
     const hash = await bcrypt.hash(password, 10)
 
     const user = await userModel.create({
-        username,
+        username:username,
         email,
         password: hash
     })
@@ -127,8 +127,6 @@ async function logoutUserController(req, res) {
 async function getMeController(req, res) {
 
     const user = await userModel.findById(req.user.id)
-
-
 
     res.status(200).json({
         message: "User details fetched successfully",

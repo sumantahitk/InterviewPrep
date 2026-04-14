@@ -9,7 +9,7 @@ const authRouter=express.Router();
  * @description Register a new user
  * @access Public
  */
-authRouter.post("/register", authController.registerUserController)
+authRouter.post("/register",authController.registerUserController)
 
 /**
  * @route POST /api/auth/login

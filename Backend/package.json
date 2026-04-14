@@ -25,9 +25,12 @@
     "morgan": "^1.10.1",
     "multer": "^2.1.1",
     "pdf-parse": "^2.4.5",
-    "puppeteer": "^24.38.0",
+    "puppeteer": "^24.40.0",
     "puppeteer-core": "^24.38.0",
     "zod": "^4.3.6",
     "zod-to-json-schema": "^3.25.1"
+  },
+  "devDependencies": {
+    "@gradio/client": "^2.2.0"
   }
 }

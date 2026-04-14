@@ -4,7 +4,7 @@ const userSchema = new mongoose.Schema({
     username: {
         type: String,
         unique: [ true, "username already taken" ],
-        required: true,
+        required: true
     },
 
     email: {
