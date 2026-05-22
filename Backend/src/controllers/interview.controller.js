@@ -34,6 +34,73 @@ async function generateInterViewReportController(req, res) {
 
 }
 
+
+
+async function generateInterViewReportControllerUpdate(req, res) {
+
+    const resumeContent = await (
+        new pdfParse.PDFParse(Uint8Array.from(req.file.buffer))
+    ).getText()
+
+    const { selfDescription, jobDescription } = req.body
+
+    // -----------------------------
+    // Input Size Validation
+    // -----------------------------
+    const MAX_RESUME_CHARS = 6000
+    const MAX_SELF_DESC_CHARS = 1000
+    const MAX_JOB_DESC_CHARS = 5000
+
+    if (resumeContent.text.length > MAX_RESUME_CHARS) {
+        return res.status(400).json({
+            message: "Resume content is too large. Please upload a shorter resume."
+        })
+    }
+
+    if (!selfDescription || selfDescription.trim().length === 0) {
+        return res.status(400).json({
+            message: "Self description is required."
+        })
+    }
+
+    if (selfDescription.length > MAX_SELF_DESC_CHARS) {
+        return res.status(400).json({
+            message: "Self description is too long."
+        })
+    }
+
+    if (!jobDescription || jobDescription.trim().length === 0) {
+        return res.status(400).json({
+            message: "Job description is required."
+        })
+    }
+
+    if (jobDescription.length > MAX_JOB_DESC_CHARS) {
+        return res.status(400).json({
+            message: "Job description is too long."
+        })
+    }
+
+    const interViewReportByAi = await generateInterviewReport({
+        resume: resumeContent.text,
+        selfDescription,
+        jobDescription
+    })
+
+    const interviewReport = await interviewReportModel.create({
+        user: req.user.id,
+        resume: resumeContent.text,
+        selfDescription,
+        jobDescription,
+        ...interViewReportByAi
+    })
+
+    res.status(201).json({
+        message: "Interview report generated successfully.",
+        interviewReport
+    })
+}
+
 /**
  * @description Controller to get interview report by interviewId.
  */
